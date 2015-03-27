@@ -12,7 +12,7 @@
 		// On récupère le mot de passe correspondant à l'adresse mail saisie
 		$checkPw = verifMdp($log)[0][0];
 		
-		// Vérification du mot de passe saisi et crypté
+		// Vérification du mot de passe saisi et crypt�
 		if ($checkPw != md5($pw)){
 			echo("Le mot de passe est incorrect");
 		}

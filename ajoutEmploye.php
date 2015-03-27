@@ -6,7 +6,7 @@ $mail = $_SESSION['log'];
 
 echo("Salut ".selectUser($mail)[0][0]);
 
-// Vérifie que tous les champs sont remplis pour effectuer l'insertion
+// Vérifie que tous les champs sont remplis pour effectuer l'insertion.
 if (!empty($_POST['nom']) && !empty($_POST['prenom']) && !empty($_POST['email']) && !empty($_POST['password'])){
 	$nom = $_POST['nom'];
 	$prenom = $_POST['prenom'];

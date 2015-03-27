@@ -17,7 +17,7 @@ function connect()
 	return $dbh;
 }
 
-// Fonction pour récupérer le mot de passe de l'user dans la BDD
+// Fonction pour récupérer le mot de passe de l'user dans la BDD.
 function verifMdp($mail){
 	$dbh = connect();
 	$sql = "SELECT password_utilisateur FROM utilisateurs WHERE mail_utilisateur = :mail;";
