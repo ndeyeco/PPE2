@@ -69,4 +69,29 @@ public class SalarieeBdd
 		}
 		
 	}
+
+	//supprimer un salariee
+	public void supprimerSalariee(int id_salariee) 
+	{
+		Statement st=acces.getDbConnexion();
+		
+		if(st!=null)
+		{			
+			//requete sql
+			String sql="delete from utilisateur where id_salariee='"+id_salariee+"'";			
+			try {
+				st.executeQuery(sql);	
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			acces.closeDbConnexion();
+		}
+		
+	}
+
+	
+	
+	
+
 }
