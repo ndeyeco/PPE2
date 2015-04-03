@@ -4,3 +4,5 @@
 	filemode = false
 	bare = true
 	logallrefupdates = false
+[http]
+postBuffer = 524288000
