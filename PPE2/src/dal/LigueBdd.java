@@ -1,25 +1,26 @@
 package dal;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
-import metier.Salariee;
+import java.sql.ResultSet;
+
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import metier.Ligue;
+
 import library.MysqlAccess;
 
 public class LigueBdd {
-	MysqlAccess acces= new MysqlAccess();
+	MysqlAccess acces= new MysqlAccess("ppe_personnel");
 	
 	// ajouter une ligue
-	public void ajoutLigue(String nom) 
+	public Ligue ajoutLigue(String nom) 
 	{
 		Statement st=acces.getDbConnexion();
 		if(st!=null)
 		{			
 			//requete sql
-			String sql=" Insert into ligue(libelle) values ('"+ nom+"')";
+			String sql=" Insert into personnel_ligue(titreLigue) values ('"+ nom+"')";
 			try {
 				st.executeUpdate(sql);
 			} catch (Exception e) {
@@ -29,26 +30,48 @@ public class LigueBdd {
 			acces.closeDbConnexion();
 		}
 		
+		return new Ligue(nom);
 	}
 	
-	//afficher la liste des ligues
-	public void afficherLigue()
+	//Recupere le dernier Id ajouté
+	
+	public int lastId()
 	{
+		String lastid="";
+		Statement st=acces.getDbConnexion();
+		if(st!=null)
+		{
+			try {
+				lastid=st.executeQuery("select last_insert_id() as last_id from personnel_ligue").getString("last_id");
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+		}
+		return Integer.parseInt(lastid);
+	}
+	
+		
+	//afficher la liste des ligues
+	public ArrayList<Ligue> afficherLigue()
+	{
+		ArrayList<Ligue> tableauLigues=new ArrayList<Ligue>(); 
+		
 		Statement st=acces.getDbConnexion();
 		ResultSet result=null;
 		if(st!=null)
 		{
 			//requete sql
-			String sql="Select * from ligue";			
+			String sql="Select * from personnel_ligue";			
 			try	{
 				result= st.executeQuery(sql);				
 				while ( result.next() )
 				{
-					    int idLigue = result.getInt( "id" );
-					    String nomLigue = result.getString( "libelle" );	      
-					    //Affichage du resultat
-					    System.out.print(idLigue);
-					    System.out.println(nomLigue);
+					    int idLigue = result.getInt( "idLigue" );
+					    String nomLigue = result.getString( "titreLigue" );
+					    tableauLigues.add(new Ligue(idLigue,nomLigue));
+					   
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -57,19 +80,21 @@ public class LigueBdd {
 			
 		}
 		acces.closeDbConnexion();
+		
+		return tableauLigues;
 	}
 	
 	//supprimer ligue
-	public void supprimerLigue(int id_ligue) 
+	public void supprimeLigue(int id_ligue) 
 	{
 		Statement st=acces.getDbConnexion();
 		
 		if(st!=null)
 		{			
 			//requete sql
-			String sql="delete from ligue where id_ligue='"+id_ligue+"'";			
+			String sql="delete from personnel_ligue where idLigue="+id_ligue;			
 			try {
-				st.executeQuery(sql);	
+				st.executeUpdate(sql);	
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -80,14 +105,14 @@ public class LigueBdd {
 	}
 	
 	//selectionner une ligue	
-	public void selectLigue(int id_ligue) 
+	public Ligue selectLigue(int id_ligue) 
 	{
 		Statement st=acces.getDbConnexion();
 		
 		if(st!=null)
 		{			
 			//requete sql
-			String sql="select * from ligue where id_ligue='"+id_ligue+"'";			
+			String sql="select * from personnel_ligue where idLigue='"+id_ligue+"'";			
 			try {
 				st.executeQuery(sql);	
 			} catch (Exception e) {
@@ -96,6 +121,7 @@ public class LigueBdd {
 			}
 			acces.closeDbConnexion();
 		}
+		return new Ligue(id_ligue);
 		
 	}
 	
@@ -107,7 +133,7 @@ public class LigueBdd {
 		if(st!=null)
 		{			
 			//requete sql ( on suppose qu'il y'a une ligne id_salariee dans ligue --A confirmer )
-			String sql="update ligue set id_salariee='"+id_salariee+"'"+" where id_ligue='"+id_ligue+"'";			
+			String sql="update personnel_salarie set statusSalarie =0 where idLigue="+id_ligue+";update personnel_salarie set statusSalarie= 1 where idSalarie="+id_salariee+"";			
 			try {
 				st.executeQuery(sql);	
 			} catch (Exception e) {
@@ -121,16 +147,16 @@ public class LigueBdd {
 	
 	
 	//modifier le nom d'une ligue
-	public void ModifierNomLigue(int id_ligue, String nom_ligue) 
+	public Ligue ModifierNomLigue(int id_ligue, String nom_ligue) 
 	{
 		Statement st=acces.getDbConnexion();
 		
 		if(st!=null)
 		{			
-			//requete sql ( on suppose qu'il y'a une ligne id_salariee dans ligue --A confirmer )
-			String sql="update ligue set nom_ligue='"+nom_ligue+"'"+" where id_ligue='"+id_ligue+"'";			
+			//requete sql 
+			String sql="update personnel_ligue set titreLigue='"+nom_ligue+"'"+" where idLigue="+id_ligue;			
 			try {
-				st.executeQuery(sql);	
+				st.executeUpdate(sql);	
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -138,5 +164,6 @@ public class LigueBdd {
 			acces.closeDbConnexion();
 		}
 		
+		return new Ligue(nom_ligue);
 	}
 }

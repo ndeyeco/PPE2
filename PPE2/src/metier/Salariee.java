@@ -10,14 +10,30 @@ public class Salariee {
 	private boolean admin;
 	private Ligue ligue;
 
-	public Salariee(int id, String nom, String prenom, String email,
-			String password, boolean admin) {
-		this.id = id;
+	public Salariee(String nom, String prenom, String email,
+			String password) {
+		
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
 		this.password = password;
-		this.admin = admin;
+		
+	}
+	
+	public Salariee(int id,String nom, String prenom) {
+		this.id=id;
+		this.nom = nom;
+		this.prenom = prenom;		
+	}
+	
+	
+	
+	
+	public Salariee(int id, String nom, String prenom, String email) {
+		this.id = id;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
 
 	}
 
@@ -33,6 +49,15 @@ public class Salariee {
 
 	}
 
+	public Salariee(String nom, String prenom, String email, String password,boolean admin) {
+		// TODO Auto-generated constructor stub
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.password = password;
+		this.admin=false;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -41,8 +66,8 @@ public class Salariee {
 		return nom;
 	}
 
-	public String getprenom() {
-		return nom;
+	public String getPrenom() {
+		return prenom;
 	}
 
 	public void setNom(String nom) {

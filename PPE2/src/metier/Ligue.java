@@ -2,16 +2,24 @@ package metier;
 
 public class Ligue {
 	private int id;
-	private String nom;
-	private Salariee admin;
+	private String nom;	
 	
 	
-	public Ligue(int id, String nom, Salariee admin)
+	public Ligue(int id, String nom)
 	{
 		this.id=id;
-		this.nom=nom;
-		this.admin=admin;
+		this.nom=nom;		
 		
+	}
+	
+	public Ligue( String nom)
+	{
+		this.nom=nom;		
+		
+	}
+	public Ligue( int id)
+	{
+		this.id=id;			
 	}
 	
 	public int getId()

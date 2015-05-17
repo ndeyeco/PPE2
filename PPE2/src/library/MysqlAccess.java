@@ -2,7 +2,6 @@ package library;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,9 +14,9 @@ public class MysqlAccess {
 	private Connection cn;
 	private Statement st;
 
-	public MysqlAccess() {
+	public MysqlAccess(String nameBdd) {
 		// TODO Auto-generated constructor stub
-		this.url="jdbc:mysql://localhost:3306/PPE2";
+		this.url="jdbc:mysql://localhost:3306/"+nameBdd;
 		this.user="root";
 		this.password="";
 		this.cn=null;
